@@ -1,7 +1,18 @@
 // @ts-ignore
-//import styles from "./Markdown.scss?inline&compress";
+import styles from "../scss/markdown.scss?inline&compress";
 import { E } from "/externals/lib/blue.js";
 import { marked } from "marked";
+
+//
+export const getDir = (dest)=>{
+    if (typeof dest != "string") return dest;
+
+    //
+    dest = dest?.trim?.() || dest;
+    if (!dest?.endsWith?.("/")) { dest = dest?.trim?.()?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || dest; };
+    const p1 = !dest?.trim()?.endsWith("/") ? (dest+"/") : dest;
+    return (!p1?.startsWith("/") ? ("/"+p1) : p1);
+}
 
 //
 let currentFS = null;
@@ -89,29 +100,21 @@ export class MarkdownView extends HTMLElement {
     //
     createShadowRoot() {
         const shadowRoot = this.attachShadow({ mode: "open" });
-        shadowRoot.append(E("div.viewbox", { dataset: {scheme: "solid", alpha: 1} }, [
-            E("nav", {}, [
-                E("div.row", {}, [  ]),
-                E("div.row", {}, [  ])
-            ]),
-            E("main.view", {}, [
-                this.#view = E("div.md-content", {})
-            ])
-        ])?.element);
+        shadowRoot.append((this.#view = E("div.markdown-body", { dataset: {print: ""} }))?.element);
 
         //
         const style = document.createElement("style");
-        style.innerHTML = `@import url("./css/github-markdown.css");`;
+        style.innerHTML = `@import url("${preInit}");`;
         shadowRoot.appendChild(style);
 
         //
         requestAnimationFrame(()=>{
-            provide(this.getAttribute("src") || "")?.then?.((file)=>this.renderMarkdown(file));
+            if (this.getAttribute("src")) {
+                provide(this.getAttribute("src") || "")?.then?.((file)=>this.renderMarkdown(file));
+            }
         });
     }
 }
 
 //
-export default ()=>{
-    customElements.define("md-view", MarkdownView);
-}
+customElements.define("md-view", MarkdownView);
