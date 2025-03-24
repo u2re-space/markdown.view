@@ -1,0 +1,26 @@
+{
+    "name": "kon-chen-ui",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "preview": "vite preview",
+        "start": "vite",
+        "dev": "vite dev"
+    },
+    "browserslist": [
+        "last 1 chrome version",
+        "last 1 firefox version"
+    ],
+    "devDependencies": {
+        "marked": "^15.0.7",
+        "vite": "^6.2.3",
+        "vite-bundle-analyzer": "^0.10.3",
+        "vite-plugin-bundle-prefetch": "^0.0.4",
+        "vite-plugin-compression2": "^1.1.1",
+        "vite-plugin-external": "^4.3.1",
+        "vite-plugin-optimizer": "^1.4.3",
+        "vite-plugin-singlefile": "^2.1.0",
+        "vite-plugin-static-copy": "^2.2.0"
+    }
+}
