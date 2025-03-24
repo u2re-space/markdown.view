@@ -92,9 +92,7 @@ export class MarkdownView extends HTMLElement {
 
     //
     attributeChangedCallback(name) {
-        if (name == "src") provide(this.getAttribute("src") || "")?.then?.((file)=>{
-            this.renderMarkdown(file);
-        });
+        if (name == "src") provide(this.getAttribute("src") || "")?.then?.((file)=>this.renderMarkdown(file));
     }
 
     //
