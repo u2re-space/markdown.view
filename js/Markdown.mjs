@@ -1,6 +1,6 @@
 // @ts-ignore
 import styles from "../scss/markdown.scss?inline&compress";
-import { E } from "/externals/lib/blue.js";
+import { E, H } from "/externals/lib/blue.js";
 import { marked } from "marked";
 import DOMPurify from 'isomorphic-dompurify';
 
@@ -76,7 +76,11 @@ export class MarkdownView extends HTMLElement {
     async setHTML(doc = "") {
         let once = false;
         const view = this.#view?.element;
-        if ( view) view.innerHTML = DOMPurify?.sanitize?.(await doc) || view.innerHTML || "";
+        const html = H(DOMPurify?.sanitize?.(await doc || "") || view?.innerHTML || "");
+        if (view) {
+            view.innerHTML = ``;
+            view.append(html);
+        }
         if (!once) document.dispatchEvent(new CustomEvent("ext-ready", {}));
         once = true;
     }
