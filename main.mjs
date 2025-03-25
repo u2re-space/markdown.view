@@ -8,5 +8,8 @@ import "./js/Markdown.mjs"
 //
 addEventListener("message", (ev)=>{
     const markdown = document?.querySelector?.("md-view");
-    if (markdown) { markdown.setAttribute("src", ev?.data?.src || ""); };
+    const src = ev?.data?.src?.trim?.() || "";
+    if (src && !src?.endsWith?.(".html") && !src?.endsWith?.("/")) {
+        if (markdown) { markdown.setAttribute("src", ev?.data?.src || markdown.getAttribute("src") || ""); };
+    }
 });

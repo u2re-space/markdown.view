@@ -2,6 +2,7 @@
 import styles from "../scss/markdown.scss?inline&compress";
 import { E } from "/externals/lib/blue.js";
 import { marked } from "marked";
+import DOMPurify from 'isomorphic-dompurify';
 
 //
 export const getDir = (dest)=>{
@@ -75,7 +76,7 @@ export class MarkdownView extends HTMLElement {
     async setHTML(doc = "") {
         let once = false;
         const view = this.#view?.element;
-        if ( view) view.innerHTML = (await doc) || view.innerHTML;
+        if ( view) view.innerHTML = DOMPurify?.sanitize?.(await doc) || view.innerHTML || "";
         if (!once) document.dispatchEvent(new CustomEvent("ext-ready", {}));
         once = true;
     }
@@ -91,8 +92,11 @@ export class MarkdownView extends HTMLElement {
     }
 
     //
-    attributeChangedCallback(name) {
-        if (name == "src") provide(this.getAttribute("src") || "")?.then?.((file)=>this.renderMarkdown(file));
+    attributeChangedCallback(name, oldValue) {
+        const nv = this.getAttribute("src");
+        if (nv && name == "src" && oldValue != nv) {
+            provide(nv || "")?.then?.((file)=>this.renderMarkdown(file));
+        };
     }
 
     //
