@@ -13,3 +13,13 @@ addEventListener("message", (ev)=>{
         if (markdown) { markdown.setAttribute("src", ev?.data?.src || markdown.getAttribute("src") || ""); };
     }
 });
+
+//
+const zone = (document.querySelector("md-view") || document.body);
+zone.addEventListener("dragover", (ev)=>{ ev.preventDefault(); });
+zone.addEventListener("drop", (ev) => {
+    ev.preventDefault();
+    const drop = ev.target.matches("md-view") ? ev.target : document.querySelector("md-view");
+    const url  = ev.dataTransfer.files.length > 0 ? URL.createObjectURL(ev.dataTransfer.files[0]) : "";
+    if (url) { drop.setAttribute("src", url || drop.getAttribute("src") || ""); };
+});

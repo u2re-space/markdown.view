@@ -50,7 +50,9 @@
         //
         md-view {
             inline-size: 100%;
-            block-size: max(100%, 100dvb);
+            block-size: 100%;
+            pointer-events: auto;
+            min-block-size: 100dvb;
             max-block-size: 100dvb;
             background-color: transparent;
             scrollbar-color: light-dark( black, white) transparent;
