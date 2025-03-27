@@ -1,5 +1,5 @@
 {
-    "name": "kon-chen-ui",
+    "name": "markdown-view",
     "private": true,
     "type": "module",
     "scripts": {
@@ -15,6 +15,7 @@
     "devDependencies": {
         "@types/sanitize-html": "^2.13.0",
         "dompurify": "^3.2.4",
+        "isomorphic-dompurify": "^2.22.0",
         "jsdom": "^26.0.0",
         "marked": "^15.0.7",
         "sass": "^1.86.0",
@@ -26,8 +27,5 @@
         "vite-plugin-optimizer": "^1.4.3",
         "vite-plugin-singlefile": "^2.1.0",
         "vite-plugin-static-copy": "^2.2.0"
-    },
-    "dependencies": {
-        "isomorphic-dompurify": "^2.22.0"
     }
 }
