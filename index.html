@@ -3,9 +3,19 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Markdown View</title>
-        <script src="./main.mjs" defer async type="module"></script>
+        <script src="./main.mjs" type="module"></script>
     </head>
     <body>
         <md-view src=""></md-view>
+        <script>
+            //
+            addEventListener("message", (ev)=>{
+                const markdown = document?.querySelector?.("md-view");
+                const src = ev?.data?.src?.trim?.() || "";
+                if (src && !src?.endsWith?.(".html") && !src?.endsWith?.("/")) {
+                    if (markdown) { markdown.setAttribute("src", ev?.data?.src || markdown.getAttribute("src") || ""); };
+                }
+            });
+        </script>
     </body>
 </html>

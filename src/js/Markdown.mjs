@@ -1,8 +1,10 @@
 // @ts-ignore
 import styles from "../scss/markdown.scss?inline&compress";
-import { E, H } from "/externals/lib/blue.js";
 import { marked } from "marked";
 import DOMPurify from 'isomorphic-dompurify';
+
+// @ts-ignore /* @vite-ignore */
+import { E, H } from "/externals/lib/blue.js";
 
 //
 export const getDir = (dest)=>{
