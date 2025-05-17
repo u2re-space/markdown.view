@@ -4,7 +4,7 @@ import { marked } from "marked";
 import DOMPurify from 'isomorphic-dompurify';
 
 // @ts-ignore /* @vite-ignore */
-import { E, H } from "/externals/lib/blue.js";
+import { E, H } from "/externals/modules/blue.js";
 
 //
 export const getDir = (dest)=>{

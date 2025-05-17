@@ -1,0 +1,20 @@
+#markdown * {
+  contain-intrinsic-block-size: auto 1em;
+}
+
+[data-hidden] #markdown {
+  display: none !important;
+  content-visibility: hidden !important;
+}
+
+[data-dragging] #markdown {
+  content-visibility: hidden !important;
+}
+[data-dragging] #markdown :where(*) {
+  content-visibility: hidden !important;
+}
+
+#markdown {
+  isolation: isolate;
+  touch-action: pan-y;
+}/*# sourceMappingURL=Misc.css.map */
