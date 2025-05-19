@@ -7,6 +7,24 @@ import DOMPurify from 'isomorphic-dompurify';
 import { E, H } from "/externals/modules/blue.js";
 
 //
+const $useFS$ = async() => {
+    // @ts-ignore
+    const opfs = await import(/*@vite-ignore */ '/externals/vendor/happy-opfs.mjs').catch(console.warn.bind(console));
+
+    // @ts-ignore
+    const deno = typeof Deno != "undefined" ? Deno : null;
+
+    /* @vite-ignore */
+    const ignore = "" + "";
+    /* @vite-ignore */
+    let node = null;
+
+    //
+    const fs = opfs?.isOPFSSupported?.() ? opfs : (deno ?? node ?? opfs);
+    return fs;
+}
+
+//
 export const getDir = (dest)=>{
     if (typeof dest != "string") return dest;
 
@@ -26,7 +44,7 @@ export const provide = async (req = "", rw = false) => {
     const fn   = url?.split("/")?.at?.(-1);
 
     //
-    if (!URL.canParse(url) && path?.trim()?.startsWith?.("/user")) {
+    if (!URL.canParse(url) && path?.trim()?.startsWith?.("/user") && navigator?.storage) {
         const fs = await useFS();
         const $path = path?.replace?.("/user/", "")?.trim?.();
         const clean = (($path?.split?.("/") || [$path])?.filter?.((p)=>!!p?.trim?.()) || [""])?.join?.("/") || "";
@@ -89,6 +107,8 @@ export class MarkdownView extends HTMLElement {
 
     //
     renderMarkdown(file) {
+        if (file && navigator?.storage) { provide("/user/cache/last.md", true)?.write?.(file instanceof Response ? file?.blob?.() : file); } else
+        { typeof file == "string" ? (localStorage.setItem("$cached-md$", file)) : file?.text?.()?.then?.((t)=>localStorage.setItem("$cached-md$", t)); }
         if (typeof file == "string") {
             this.setHTML(marked(file));
         } else

@@ -3,6 +3,17 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Markdown View</title>
+        <style>script, link, style {display: none !important;}</style>
+        <script>
+            // workaround for happy-fs
+            if (typeof process == "undefined" || !window?.process) {
+                window.process = {
+                    env: {
+                        NODE_ENV: "production"
+                    }
+                }
+            }
+        </script>
         <script src="./main.mjs" type="module"></script>
     </head>
     <body>
