@@ -3,39 +3,43 @@
 @use "./markdown/github-markdown.scss";
 @use "./print/Print.scss";
 
+//
+@layer markdown-page {
+    :host {
 
-:host {
+        &, * {
+            box-sizing: border-box;
+        }
 
-    &, * {
-        box-sizing: border-box;
+        & {
+            background-color: transparent;
+            inline-size: 100%;
+            min-block-size: 100%;
+            block-size: 100%;
+            max-block-size: min(100dvb, 100cqb);
+            display: block;
+            flex-direction: column;
+            content-visibility: visible;
+            overflow: auto;
+            container-type: inline-size;
+            contain: none;
+            padding: 2rem;
+            font-size: 1em;
+        }
+
+        //
+        .markdown-body[data-print] {
+            background-color: transparent;
+            container-type: normal;
+            contain: none;
+            display: block;
+            inline-size: 100%;
+            block-size: max-content;
+            min-block-size: 100%;
+            max-block-size: none;
+            overflow: hidden;
+            font-size: 1em;
+        }
+
     }
-
-    & {
-        background-color: transparent;
-        inline-size: 100%;
-        min-block-size: 100%;
-        block-size: 100%;
-        max-block-size: min(100dvb, 100cqb);
-        display: block;
-        flex-direction: column;
-        content-visibility: visible;
-        overflow: auto;
-        container-type: inline-size;
-        contain: none;
-        padding: 2rem;
-    }
-
-    //
-    .markdown-body[data-print] {
-        background-color: transparent;
-        container-type: normal;
-        contain: none;
-        display: block;
-        inline-size: 100%;
-        block-size: max-content;
-        min-block-size: 100%;
-        max-block-size: none;
-        overflow: hidden;
-    }
-
 }

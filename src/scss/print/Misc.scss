@@ -1,21 +1,26 @@
-//
-#markdown * {
-    contain-intrinsic-block-size: auto 1em;
-}
+@layer md-misc {
 
-//
-[data-hidden] #markdown {
-    display: none !important;
-    content-visibility: hidden !important;
-}
+    //
+    #markdown * {
+        contain-intrinsic-block-size: auto 1em;
+        font-size: 1em;
+    }
 
-//
-[data-dragging] #markdown {
-    content-visibility: hidden !important;
-    :where(*) {
+    //
+    [data-hidden] #markdown {
+        display: none !important;
         content-visibility: hidden !important;
     }
-}
 
-//
-#markdown { isolation: isolate; touch-action: pan-y; };
+    //
+    [data-dragging] #markdown {
+        content-visibility: hidden !important;
+        :where(*) {
+            content-visibility: hidden !important;
+        }
+    }
+
+    //
+    #markdown { font-size: 1em; isolation: isolate; touch-action: pan-y; };
+
+}
