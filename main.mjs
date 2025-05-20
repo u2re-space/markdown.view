@@ -6,13 +6,15 @@ import "./src/scss/main.scss"
 import { provide } from "./src/js/Markdown.mjs"
 
 //
-let last = URL.createObjectURL(new Blob([localStorage.getItem("$cached-md$") || ""], {type: "plain/text"}));
+let cache = localStorage.getItem("$cached-md$") || "";
+let last = cache ? URL.createObjectURL(new Blob([localStorage.getItem("$cached-md$") || ""], {type: "text/plain"})) : "";
 let doc = document.querySelector("md-view");
 doc?.setAttribute?.("src", doc?.getAttribute?.("src") || last);
 
 //
-(navigator.storage ? provide("/user/cache/last.md") : null)?.then?.((b)=>{
-    doc ??= document.querySelector("md-view"); last = URL.createObjectURL(b);
+(navigator.storage ? provide("/user/cache/last.md") : null)?.then?.(async (b)=>{
+    const r = await b;
+    doc ??= document.querySelector("md-view"); last = r ? URL.createObjectURL(r) : "";
     doc?.setAttribute?.("src", doc?.getAttribute?.("src") || last);
 });
 
