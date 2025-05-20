@@ -18,13 +18,13 @@
         }
 
         & {
-            line-height: 1.45;
+            line-height: 1.5;
             isolation: isolate;
             -webkit-font-smoothing: antialiased;
             white-space: normal;
         };
 
-        p { line-height: 1.45; margin-block: 0.5em; margin-block-start: 1em; white-space: pre-line; };
+        p { line-height: 1.5; margin-block: 0.5em; margin-block-start: 1em; white-space: pre-line; };
 
         img,
         picture,
@@ -163,16 +163,20 @@
             text-indent: 0em;
             margin-block: 0.5em;
             margin-inline-start: 0.75em;
+            gap: 0px;
         }
 
         :where(ol, ul) :where(ol, ul) {
             text-indent: 0em;
             margin-inline-start: 0em;
             margin-block: 0.5em;
+            gap: 0px;
         }
 
         :where(li) {
+            margin-block: 0em;
             text-indent: 0em;
+            padding: 0px;
         }
 
         li {
