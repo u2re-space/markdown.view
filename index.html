@@ -28,9 +28,9 @@
                 }
             });
         </script>
-        <script type="module" defer>
-            import { polyfillCountryFlagEmojis } from "https://cdn.skypack.dev/country-flag-emoji-polyfill";
-            polyfillCountryFlagEmojis();
+        <script type="module" async defer>
+            const imp = (src)=>import(src);
+            Promise.try(imp, "https://cdn.skypack.dev/country-flag-emoji-polyfill")?.then?.((m)=>m?.polyfillCountryFlagEmojis?.())?.catch?.(console.warn.bind(console));
         </script>
     </body>
 </html>
