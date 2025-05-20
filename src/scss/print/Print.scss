@@ -18,13 +18,13 @@
         }
 
         & {
-            line-height: 1.4;
+            line-height: 1.45;
             isolation: isolate;
             -webkit-font-smoothing: antialiased;
             white-space: normal;
         };
 
-        p { line-height: 1.6; margin-block: 0.5em; margin-block-start: 1em; white-space: pre-line; };
+        p { line-height: 1.45; margin-block: 0.5em; margin-block-start: 1em; white-space: pre-line; };
 
         img,
         picture,
@@ -47,7 +47,7 @@
         p {
             text-overflow: ellipsis;
             overflow-wrap: break-word;
-            text-indent: 1em;
+            text-indent: 0px;
             font-family: 10pt;
 
             strong:first-child { font-size: 1.05em; };
@@ -79,6 +79,7 @@
         }
 
         h1:not(:first-of-type) { break-before: page; };
+        hr:not(:first-child) { break-before: page; };
 
         h1,
         h2 {
@@ -198,12 +199,17 @@
             break-inside: avoid-page;
         }
 
+        p { text-indent: 0.75em; }
+
         blockquote {
+            text-indent: 0px;
             break-before: auto;
             break-inside: avoid-page;
             break-after: avoid-page;
-            //border-inline-start: solid 0.25em oklch(from var(--rv-color, #000) l c h / 0.1);
-            margin-inline: 0;
+            margin-inline: 1.75em;
+            padding-inline: 1em;
+
+            p { text-indent: 0px; }
         }
 
         :not(h1, h2, h3, h4, h5, h6)+ :where(ul, ol, li) {
@@ -283,6 +289,14 @@
                 //border: solid 1px oklch(from var(--rv-color, #000) l c h / 0.1);
             }
         }
+
+        //
+        h1:has(+hr) { break-before: auto; };
+        hr:has(+h2) { break-after: auto; };
+        hr+h2 { break-after: auto; };
+        hr+h2 { break-before: auto; };
+        h1+hr { break-before: auto; };
+        h1+hr { break-after: auto; };
     }
 
     //
