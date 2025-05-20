@@ -73,14 +73,14 @@
             break-after: avoid-page;
         }
 
-        h1 {
-            text-align: center;
-            font-size: 2em;
-        }
+        //
+        h1 { text-align: center; font-size: 2em; }
 
+        //
+        h1:not(:first-child) { break-before: page; };
         h1:not(:first-of-type) { break-before: page; };
-        hr:not(:first-child) { break-before: page; };
 
+        //
         h1,
         h2 {
             //border-bottom: 1px solid #0004;
@@ -159,19 +159,19 @@
         }
 
         :where(ol, ul) {
-            text-indent: 1em;
+            text-indent: 0em;
             margin-block: 0.5em;
-            margin-inline-start: 1em;
+            margin-inline-start: 0.75em;
         }
 
         :where(ol, ul) :where(ol, ul) {
-            text-indent: 1em;
-            margin-inline-start: 0.25em;
+            text-indent: 0em;
+            margin-inline-start: 0em;
             margin-block: 0.5em;
         }
 
         :where(li) {
-            text-indent: 0;
+            text-indent: 0em;
         }
 
         li {
@@ -291,12 +291,13 @@
         }
 
         //
-        h1:has(+hr) { break-before: auto; };
-        hr:has(+h2) { break-after: auto; };
-        hr+h2 { break-after: auto; };
-        hr+h2 { break-before: auto; };
-        h1+hr { break-before: auto; };
-        h1+hr { break-after: auto; };
+        //h1:has(+hr) { break-before: avoid-page; };
+        //hr:has(+h2) { break-after: avoid-page; };
+        hr+h2 { break-after: avoid-page; };
+        //hr+h2 { break-before: avoid-page; };
+        h1+hr { break-before: avoid-page; };
+        //h1+hr { break-after: avoid-page; };
+        hr:only-child { display: none !important; };
     }
 
     //
@@ -338,14 +339,4 @@
             visibility: visible;
         }
     }
-
-    @page {
-        size: A4;
-        margin: 10mm 16mm 10mm 16mm;
-
-        @bottom-center {
-            content: counter(page);
-        }
-    }
-
 }

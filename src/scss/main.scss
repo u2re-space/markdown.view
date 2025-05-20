@@ -85,10 +85,16 @@
 
     @page {
         size: A4;
-        margin: 10mm 16mm 10mm 16mm;
+        margin: 10mm 12mm 10mm 12mm;
+        font-family: Calibry, Carlito, Consolas;
+        font-size: 0.7em;
 
         @bottom-center {
             content: counter(page);
+        }
+
+        @top-right {
+            content: "UC";
         }
     }
 }
