@@ -321,18 +321,19 @@
     //
     @media screen {
         * {
+            font-smooth: always !important;
             -moz-osx-font-smoothing: auto !important;
             -webkit-font-smoothing: subpixel-antialiased !important;
-            font-smooth: always !important;
         }
     }
 
     //
     @media print {
         * {
-            -moz-osx-font-smoothing: grayscale !important;
-            -webkit-font-smoothing: none !important;
             font-smooth: never !important;
+            -webkit-font-smoothing: antialiased !important;
+            -webkit-font-smoothing: none !important;
+            -moz-osx-font-smoothing: grayscale !important;
         }
 
         body, html { background-color: white !important; };
