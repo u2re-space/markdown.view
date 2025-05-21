@@ -1,5 +1,5 @@
 // @ts-ignore
-import styles from "../scss/markdown.scss?inline&compress";
+import styles from "./Markdown.scss?inline&compress";
 import { marked } from "marked";
 import DOMPurify from 'isomorphic-dompurify';
 

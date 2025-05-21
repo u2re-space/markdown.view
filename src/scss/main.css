@@ -1,94 +1,138 @@
-:root {
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: only dark;
-  }
-}
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: only light;
-  }
-}
-:root, :root * {
-  box-sizing: border-box;
-}
-:root body, :root {
-  padding: 0px;
-  margin: 0px;
-}
-@media (prefers-color-scheme: dark) {
-  :root body {
-    color-scheme: only dark;
-  }
-}
-@media (prefers-color-scheme: light) {
-  :root body {
-    color-scheme: only light;
-  }
-}
-:root body {
-  background-color: light-dark(white, black);
-}
-:root head {
-  display: none !important;
-  content-visibility: hidden !important;
-  pointer-events: none !important;
-  interactivity: inert !important;
-  -webkit-user-select: none !important;
-     -moz-user-select: none !important;
-          user-select: none !important;
-  touch-action: none !important;
-}
-
-@media screen {
-  :root {
-    overflow: hidden;
-  }
-  body {
-    padding: 0px;
-    margin: 0px;
-    inline-size: 100%;
-    min-block-size: 100dvb;
-    block-size: max(100%, 100dvb);
-    max-block-size: 100dvb;
-    scrollbar-color: transparent transparent;
-  }
-  md-view {
-    inline-size: 100%;
-    block-size: 100%;
-    pointer-events: auto;
-    min-block-size: 100dvb;
-    max-block-size: 100dvb;
-    background-color: transparent;
-    scrollbar-color: light-dark(black, white) transparent;
-  }
-}
-@media print {
-  :root {
-    container-type: inline-size;
-  }
-  body {
-    inline-size: 100%;
-    container-type: inline-size;
-    min-block-size: -moz-max-content;
-    min-block-size: max-content;
-    contain: content layout;
-    scrollbar-color: transparent transparent;
-  }
-  md-view {
-    scrollbar-color: transparent transparent;
-    background-color: transparent;
-    container-type: inline-size;
-    display: contents;
-    contain: strict;
-  }
-}
 @page {
   size: A4;
-  margin: 10mm 16mm 10mm 16mm;
+  margin: 10mm 12mm 10mm 12mm;
+  font-family: "Source Sans 3", "Open Sans", "Ubuntu Sans", "Noto Sans", "Segoe UI", "Helvetica", "Calibri", "Carlito", "Twemoji Country Flags", "Comic Sans", Helvetica, serif, -apple-system, BlinkMacSystemFont, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 0.7em;
+  hr:only-child {
+    display: none !important;
+  }
+  p, span {
+    display: none !important;
+  }
   @bottom-center {
     content: counter(page);
+  }
+  @top-right {
+    content: "UC";
+  }
+}
+@layer md-main {
+  @media screen {
+    * {
+      -moz-osx-font-smoothing: auto !important;
+      -webkit-font-smoothing: subpixel-antialiased !important;
+      font-smooth: always !important;
+    }
+  }
+  @media print {
+    body, html {
+      background-color: white !important;
+    }
+    :host {
+      background-color: transparent !important;
+    }
+    p, span, a, ul, li, ol, strong, h1, h2 {
+      filter: grayscale(100%);
+    }
+    blockquote, blockquote p {
+      filter: none;
+    }
+    * {
+      -moz-osx-font-smoothing: grayscale !important;
+      -webkit-font-smoothing: none !important;
+      font-smooth: never !important;
+    }
+  }
+  :root {
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: only dark;
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      color-scheme: only light;
+    }
+  }
+  :root, :root * {
+    box-sizing: border-box;
+  }
+  :root body, :root {
+    padding: 0px;
+    margin: 0px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root body {
+      color-scheme: only dark;
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    :root body {
+      color-scheme: only light;
+    }
+  }
+  :root body {
+    background-color: light-dark(white, black);
+  }
+  :root head {
+    display: none !important;
+    content-visibility: hidden !important;
+    pointer-events: none !important;
+    interactivity: inert !important;
+    -webkit-user-select: none !important;
+       -moz-user-select: none !important;
+            user-select: none !important;
+    touch-action: none !important;
+  }
+  :root md-view {
+    font-size: 0.75em;
+  }
+  :root md-view a, :root md-view span, :root md-view p {
+    font-size: 1em;
+  }
+  @media screen {
+    :root {
+      overflow: hidden;
+    }
+    body {
+      padding: 0px;
+      margin: 0px;
+      inline-size: 100%;
+      min-block-size: 100dvb;
+      block-size: max(100%, 100dvb);
+      max-block-size: 100dvb;
+      scrollbar-color: transparent transparent;
+    }
+    md-view {
+      inline-size: 100%;
+      block-size: 100%;
+      pointer-events: auto;
+      min-block-size: 100dvb;
+      max-block-size: 100dvb;
+      background-color: transparent;
+      scrollbar-color: light-dark(black, white) transparent;
+    }
+  }
+  @media print {
+    :root {
+      container-type: inline-size;
+    }
+    body {
+      inline-size: 100%;
+      container-type: inline-size;
+      min-block-size: -moz-max-content;
+      min-block-size: max-content;
+      contain: content layout;
+      scrollbar-color: transparent transparent;
+    }
+    md-view {
+      scrollbar-color: transparent transparent;
+      background-color: transparent;
+      container-type: inline-size;
+      display: contents;
+      contain: strict;
+    }
   }
 }/*# sourceMappingURL=main.css.map */

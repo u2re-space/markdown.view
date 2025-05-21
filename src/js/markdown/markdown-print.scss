@@ -1,3 +1,17 @@
+@page {
+    size: A4;
+    margin: 10mm 12mm 10mm 12mm;
+    font-family: "Source Sans 3", "Open Sans", "Ubuntu Sans", "Noto Sans", "Segoe UI", "Helvetica", "Calibri", "Carlito", "Twemoji Country Flags", "Comic Sans", Helvetica, serif, -apple-system, BlinkMacSystemFont, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 0.7em;
+
+    hr:only-child { display: none !important; }
+    p, span { display: none !important; };
+
+    @bottom-center { content: counter(page); }
+    @top-right { content: "UC"; }
+}
+
+//
 @layer md-print {
 
     [data-print] {
@@ -20,7 +34,6 @@
         & {
             line-height: 1.5;
             isolation: isolate;
-            -webkit-font-smoothing: antialiased;
             white-space: normal;
         };
 
@@ -252,7 +265,7 @@
         hr {
             display: block;
             block-size: 1px;
-            //background-color: #0004;
+            background-color: #0004;
             margin: 2em 1em;
         }
 
@@ -306,7 +319,27 @@
     }
 
     //
+    @media screen {
+        * {
+            -moz-osx-font-smoothing: auto !important;
+            -webkit-font-smoothing: subpixel-antialiased !important;
+            font-smooth: always !important;
+        }
+    }
+
+    //
     @media print {
+        * {
+            -moz-osx-font-smoothing: grayscale !important;
+            -webkit-font-smoothing: none !important;
+            font-smooth: never !important;
+        }
+
+        body, html { background-color: white !important; };
+        :host { background-color: transparent !important; };
+        p, span, a, ul, li, ol, strong, h1, h2 { filter: grayscale(100%); }
+        blockquote, blockquote p { filter: none; }
+
         @scope (:where(body, :host) :not([data-print])) to (:has(> [data-print])) {
             :scope> :where(div, img, canvas, :not(:defined)):not([data-print]):not([data-print-pass]) {
                 display: none !important;
@@ -343,5 +376,46 @@
             display: contents !important;
             visibility: visible;
         }
+    }
+}
+
+//
+@layer markdown-page {
+    :host {
+
+        &, * {
+            box-sizing: border-box;
+        }
+
+        & {
+            background-color: transparent;
+            inline-size: 100%;
+            min-block-size: 100%;
+            block-size: 100%;
+            max-block-size: min(100dvb, 100cqb);
+            display: block;
+            flex-direction: column;
+            content-visibility: visible;
+            overflow: auto;
+            container-type: inline-size;
+            contain: none;
+            padding: 2rem;
+            font-size: 1em;
+        }
+
+        //
+        .markdown-body[data-print] {
+            background-color: transparent;
+            container-type: normal;
+            contain: none;
+            display: block;
+            inline-size: 100%;
+            block-size: max-content;
+            min-block-size: 100%;
+            max-block-size: none;
+            overflow: hidden;
+            font-size: 1em;
+        }
+
     }
 }

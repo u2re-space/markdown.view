@@ -1,4 +1,38 @@
+@page {
+    size: A4;
+    margin: 10mm 12mm 10mm 12mm;
+    font-family: "Source Sans 3", "Open Sans", "Ubuntu Sans", "Noto Sans", "Segoe UI", "Helvetica", "Calibri", "Carlito", "Twemoji Country Flags", "Comic Sans", Helvetica, serif, -apple-system, BlinkMacSystemFont, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 0.7em;
+
+    hr:only-child { display: none !important; }
+    p, span { display: none !important; };
+
+    @bottom-center { content: counter(page); }
+    @top-right { content: "UC"; }
+}
+
+//
 @layer md-main {
+    @media screen {
+        * {
+            -moz-osx-font-smoothing: auto !important;
+            -webkit-font-smoothing: subpixel-antialiased !important;
+            font-smooth: always !important;
+        }
+    }
+
+    @media print {
+        body, html { background-color: white !important; };
+        :host { background-color: transparent !important; };
+        p, span, a, ul, li, ol, strong, h1, h2 { filter: grayscale(100%); }
+        blockquote, blockquote p { filter: none; }
+
+        * {
+            -moz-osx-font-smoothing: grayscale !important;
+            -webkit-font-smoothing: none !important;
+            font-smooth: never !important;
+        }
+    }
 
     //
     :root {
@@ -81,23 +115,5 @@
             display: contents;
             contain: strict;
         }
-    }
-
-    @page {
-        size: A4;
-        margin: 10mm 12mm 10mm 12mm;
-        font-family: "Source Sans 3", "Open Sans", "Ubuntu Sans", "Noto Sans", "Segoe UI", "Helvetica", "Calibri", "Carlito", "Twemoji Country Flags", "Comic Sans", Helvetica, serif, -apple-system, BlinkMacSystemFont, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-        font-size: 0.7em;
-
-        @bottom-center {
-            content: counter(page);
-        }
-
-        @top-right {
-            content: "UC";
-        }
-
-        hr:only-child { display: none !important; }
-        p, span { display: none !important; };
     }
 }
