@@ -1,10 +1,10 @@
 // @ts-ignore
 import styles from "./Markdown.scss?inline&compress";
-import { marked } from "marked";
 import DOMPurify from 'isomorphic-dompurify';
+import { marked } from "marked";
 
-// @ts-ignore /* @vite-ignore */
-import { E, H } from "/externals/modules/blue.js";
+//
+import { E, H, provide } from "fest/lure";
 
 //
 const $useFS$ = async() => {
@@ -38,47 +38,6 @@ export const getDir = (dest)=>{
 //
 let currentFS = null;
 export const useFS = ()=>{ return (currentFS ??= $useFS$()); };
-export const provide = async (req = "", rw = false) => {
-    const url = (req)?.url ?? req;
-    const path = getDir(url?.replace?.(location.origin, "")?.trim?.());
-    const fn   = url?.split("/")?.at?.(-1);
-
-    //
-    if (!URL.canParse(url) && path?.trim()?.startsWith?.("/user") && navigator?.storage) {
-        const fs = await useFS();
-        const $path = path?.replace?.("/user/", "")?.trim?.();
-        const clean = (($path?.split?.("/") || [$path])?.filter?.((p)=>!!p?.trim?.()) || [""])?.join?.("/") || "";
-        const npt = ((clean && clean != "/") ? "/" + clean + "/" : clean) || "/";
-
-        //
-        if (npt && npt != "/") { await fs?.mkdir?.(npt); };
-        if (rw) {
-            return {
-                write(data) {
-                    return fs?.writeFile?.(npt + fn, data);
-                }
-            }
-        }
-
-        //
-        const handle = await fs?.readFile?.(npt + fn, {encoding: "blob"});
-
-        //
-        let file = null;
-        try { file = handle?.unwrap?.() ?? handle; } catch(e) {};
-        return file;
-    } else {
-        return fetch(req).then(async (r) => {
-            const blob = await r.blob();
-            const lastModified = Date.parse(r.headers.get("Last-Modified") || "") || 0;
-            return new File([blob], url.substring(url.lastIndexOf('/') + 1), {
-                type: blob.type,
-                lastModified
-            });
-        });
-    }
-    return null;
-};
 
 //
 const preInit = URL.createObjectURL(new Blob([styles], {type: "text/css"}));

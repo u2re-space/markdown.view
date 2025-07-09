@@ -6,7 +6,8 @@
         "build": "vite build",
         "preview": "vite preview",
         "start": "vite",
-        "dev": "vite dev --host 0.0.0.0"
+        "dev": "vite dev",
+        "test": "vite dev"
     },
     "browserslist": [
         "last 1 chrome version",
@@ -20,13 +21,25 @@
         "jsdom": "^26.0.0",
         "marked": "^15.0.7",
         "sass": "^1.86.0",
-        "vite": "^6.2.3",
         "vite-bundle-analyzer": "^0.10.3",
         "vite-plugin-bundle-prefetch": "^0.0.4",
-        "vite-plugin-compression2": "^1.1.1",
-        "vite-plugin-external": "^4.3.1",
-        "vite-plugin-optimizer": "^1.4.3",
         "vite-plugin-singlefile": "^2.1.0",
-        "vite-plugin-static-copy": "^2.2.0"
+        "vite-plugin-static-copy": "^2.2.0",
+        "@danielx/civet": "^0.10.4",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^12.1.2",
+        "cssnano": "^7.0.7",
+        "cssnano-preset-advanced": "^7.0.7",
+        "postcss-preset-env": "^10.2.1",
+        "sass-embedded": "^1.89.1",
+        "terser": "^5.41.0",
+        "typedoc": "^0.28.5",
+        "typescript": "~5.7.2",
+        "vite": "^6.2.4",
+        "vite-plugin-compression2": "^1.4.0",
+        "vite-plugin-external": "^6.2.2",
+        "vite-plugin-externalize-deps": "^0.9.0",
+        "vite-plugin-optimizer": "^1.4.3",
+        "vite-tsconfig-paths": "^5.1.4"
     }
 }

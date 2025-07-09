@@ -1,15 +1,18 @@
 @page {
-    size: A4;
     margin: 10mm 12mm 10mm 12mm;
+    font-size: 0.7em; size: A4;
     font-family: "Source Sans 3", "Open Sans", "Ubuntu Sans", "Noto Sans", "Segoe UI", "Helvetica", "Calibri", "Carlito", "Twemoji Country Flags", "Comic Sans", Helvetica, serif, -apple-system, BlinkMacSystemFont, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    font-size: 0.7em;
 
-    hr:only-child { display: none !important; }
-    p, span { display: none !important; };
-
+    //
     @bottom-center { content: counter(page); }
     @top-right { content: "UC"; }
 }
+
+//
+@media print {
+    hr:only-child { display: none !important; }
+    p, span { display: none !important; };
+};
 
 //
 @layer md-main {
@@ -86,6 +89,7 @@
 
         //
         md-view {
+            display: block;
             inline-size: 100%;
             block-size: 100%;
             pointer-events: auto;
