@@ -12,7 +12,7 @@
 @media print {
     hr:only-child { display: none !important; }
     p, span { display: none !important; };
-};
+}
 
 //
 @layer md-main {
@@ -45,6 +45,7 @@
         @media (prefers-color-scheme: light) { color-scheme: only light; };
 
         &, * { box-sizing: border-box; }
+        & { background-color: light-dark(white, #101010) !important; };
 
         body, & {
             padding: 0px;
@@ -54,7 +55,7 @@
         body {
             @media (prefers-color-scheme: dark) { color-scheme: only dark; };
             @media (prefers-color-scheme: light) { color-scheme: only light; };
-            & { background-color: light-dark(white, black); };
+            & { background-color: transparent !important; };
         }
 
         head {

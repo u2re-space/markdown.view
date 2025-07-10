@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html color-mode="user">
     <head>
         <meta charset="UTF-8"/>
         <title>Markdown View</title>
@@ -51,9 +51,8 @@
         <script src="./main.mjs" type="module"></script>
     </head>
     <body>
-        <md-view src=""></md-view>
+        <md-view src="" style="padding-inline: max(calc(100cqi - min(100cqi, 100rem)), 0px) !important;"></md-view>
         <script>
-            //
             addEventListener("message", (ev)=>{
                 const markdown = document?.querySelector?.("md-view");
                 const src = ev?.data?.src?.trim?.() || "";

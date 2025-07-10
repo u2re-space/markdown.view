@@ -4,6 +4,9 @@ import "./scss/markdown/github-markdown-light.scss"
 import "./scss/print/Print.scss"*/
 import { provide } from "fest/lure";
 import {} from "./src/Markdown.mjs";
+
+//
+import "./mvp.css"
 import "./main.scss"
 
 //

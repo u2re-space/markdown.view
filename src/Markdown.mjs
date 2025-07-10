@@ -2,42 +2,9 @@
 import styles from "./Markdown.scss?inline&compress";
 import DOMPurify from 'isomorphic-dompurify';
 import { marked } from "marked";
-
-//
-import { E, H, provide } from "fest/lure";
-
-//
-const $useFS$ = async() => {
-    // @ts-ignore
-    const opfs = await import(/*@vite-ignore */ '/externals/vendor/happy-opfs.mjs').catch(console.warn.bind(console));
-
-    // @ts-ignore
-    const deno = typeof Deno != "undefined" ? Deno : null;
-
-    /* @vite-ignore */
-    const ignore = "" + "";
-    /* @vite-ignore */
-    let node = null;
-
-    //
-    const fs = opfs?.isOPFSSupported?.() ? opfs : (deno ?? node ?? opfs);
-    return fs;
-}
-
-//
-export const getDir = (dest)=>{
-    if (typeof dest != "string") return dest;
-
-    //
-    dest = dest?.trim?.() || dest;
-    if (!dest?.endsWith?.("/")) { dest = dest?.trim?.()?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || dest; };
-    const p1 = !dest?.trim()?.endsWith("/") ? (dest+"/") : dest;
-    return (!p1?.startsWith("/") ? ("/"+p1) : p1);
-}
-
-//
-let currentFS = null;
-export const useFS = ()=>{ return (currentFS ??= $useFS$()); };
+import { provide, E, H } from "fest/lure";
+import markedKatex from "marked-katex-extension";
+marked?.use?.(markedKatex({ throwOnError: false, nonStandard: true }));
 
 //
 const preInit = URL.createObjectURL(new Blob([styles], {type: "text/css"}));
