@@ -1,4 +1,3 @@
-import { defineConfig } from "vite";
 import { resolve  } from "node:path";
 import { readFile } from "node:fs/promises";
 import { compression } from 'vite-plugin-compression2';
@@ -8,8 +7,6 @@ import cssnano from "cssnano";
 import deduplicate from "postcss-discard-duplicates";
 import postcssPresetEnv from 'postcss-preset-env';
 import autoprefixer from "autoprefixer";
-import civetVitePlugin from '@danielx/civet/vite'
-import tsconfigPaths from 'vite-tsconfig-paths';
 import https from "./https/certificate.mjs";
 
 //
@@ -100,7 +97,6 @@ export const initiate = (NAME = "generic", tsconfig = {}, __dirname = resolve(".
 
     //
     const plugins = [
-        tsconfigPaths({ baseUrl: __dirname }),
         optimizer({}),
         compression(),
         createExternal({
