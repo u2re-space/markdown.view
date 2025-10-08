@@ -262,7 +262,9 @@ export default objectAssign(
                 origin: "*"
             },
             headers: {
+                "Accept-Language": "*",
                 "Content-Security-Policy": "upgrade-insecure-requests",
+                "Content-Language": "*",
                 "Service-Worker-Allowed": "/",
                 "Permissions-Policy": "fullscreen=*, window-management=*",
                 "Cross-Origin-Embedder-Policy": "require-corp",
