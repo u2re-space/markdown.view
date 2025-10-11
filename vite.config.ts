@@ -186,6 +186,8 @@ export const initiate = (NAME = "generic", tsconfig = {}, __dirname = resolve(".
         port: 5173,
         open: false,
         origin: "http://localhost:5173",
+        allowedHosts: ['localhost', '127.0.0.1', '0.0.0.0', '192.168.0.200', '95.188.82.223'],
+        appType: 'spa',
         fs: {
             allow: ['..', resolve(__dirname, '../') ]
         },
