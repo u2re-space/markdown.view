@@ -33,7 +33,7 @@
         "terser": "^5.41.0",
         "typedoc": "^0.28.5",
         "typescript": "~5.7.2",
-        "vite": "^7.1.2",
+        "vite": ">=7.1.5",
         "vite-bundle-analyzer": "^0.10.3",
         "vite-plugin-bundle-prefetch": "^0.0.4",
         "vite-plugin-external": "^6.2.2",
