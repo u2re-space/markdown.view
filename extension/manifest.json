@@ -1,0 +1,43 @@
+{
+    "manifest_version": 3,
+    "name": "Markdown View",
+    "description": "View Markdown files in the browser or from disk using Markdown View.",
+    "version": "0.1.0",
+    "action": {
+        "default_title": "Open Markdown View"
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "permissions": [
+        "contextMenus",
+        "tabs",
+        "storage",
+        "webNavigation"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "viewer.html",
+                "assets/*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ]
+}
+

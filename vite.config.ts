@@ -1,27 +1,41 @@
-import { resolve  } from "node:path";
+import { resolve } from "node:path";
 import { readFile } from "node:fs/promises";
-import { compression } from 'vite-plugin-compression2';
-import optimizer from 'vite-plugin-optimizer';
-import createExternal from "vite-plugin-external";
+import { defineConfig } from "vite";
+import compression from 'vite-plugin-compression2';
 import cssnano from "cssnano";
 import deduplicate from "postcss-discard-duplicates";
 import postcssPresetEnv from 'postcss-preset-env';
 import autoprefixer from "autoprefixer";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 import https from "./https/certificate.mjs";
 
+
 //
-export const initiate = (NAME = "generic", tsconfig = {}, __dirname = resolve("./", import.meta.dirname))=>{
+function normalizeAliasPattern(pattern) {
+    return pattern.replace(/\/\*+$/, '');
+}
+
+//
+const importFromTSConfig = (tsconfig, __dirname) => {
+    const paths = tsconfig?.compilerOptions?.paths || {};
+    const alias = [];
+    for (const key in paths) {
+        const normalizedKey = normalizeAliasPattern(key);
+        const target = paths[key]?.at?.(0);
+        const normalizedTarget = normalizeAliasPattern(target);
+        alias.push({
+            find: normalizedKey,
+            replacement: resolve(__dirname, normalizedTarget),
+        });
+    }
+    return alias;
+};
+
+
+//
+export const initiate = (NAME = "markdown-view", tsconfig = {}, __dirname = resolve(import.meta.dirname, "./"))=>{
     const $resolve = {
-        alias: {
-            'fest-src/': resolve(__dirname, '../'),
-            'fest/': resolve(__dirname, '/fest/'),
-            "fest/cdnImport": resolve(__dirname, './fest/cdnImport.mjs'),
-            "fest/dom": resolve(__dirname, "./fest/dom/index.ts"),
-            "fest/lure": resolve(__dirname, "./fest/lure/index.ts"),
-            "fest/object": resolve(__dirname, "./fest/object/index.ts"),
-            "fest/uniform": resolve(__dirname, "./fest/uniform/index.ts"),
-            "fest/theme": resolve(__dirname, "./fest/theme/index.ts"),
-        },
+        alias: importFromTSConfig(tsconfig, __dirname)
     }
 
     //
@@ -97,35 +111,13 @@ export const initiate = (NAME = "generic", tsconfig = {}, __dirname = resolve(".
 
     //
     const plugins = [
-        optimizer({}),
         compression(),
-        createExternal({
-            interop: 'auto',
-            externals: { "externals": "externals", "dist": "dist", "fest": "fest", "fest-src": "fest-src" },
-            externalizeDeps: [
-                "externals", "/externals", "./externals",
-                "fest", "/fest", "./fest",
-                "dist", "/dist", "./dist",
-                "fest", "../"
-            ]
-        }),
     ];
 
     //
     const rollupOptions = {
-        plugins,
         treeshake: 'smallest',
         input: "./src/index.ts",
-        external: (source) => {
-            if (source.startsWith("/externals") || source.startsWith("fest")) return true;
-            return false;
-        },/*
-        external: [
-            "externals", "/externals", "./externals",
-            "dist", "/dist", "./dist",
-            "fest", "../"
-        ],*/
-
         output: {
             compact: true,
             globals: {},
@@ -177,7 +169,7 @@ export const initiate = (NAME = "generic", tsconfig = {}, __dirname = resolve(".
             "./test/*.js",
             "./test/*.ts"
         ],
-        entries: [resolve(__dirname, './src/index.ts'),],
+        entries: [resolve(__dirname, './src/index.ts')],
         force: true
     }
 
@@ -195,10 +187,10 @@ export const initiate = (NAME = "generic", tsconfig = {}, __dirname = resolve(".
 
     //
     const build = {
+        emptyOutDir: false,
         chunkSizeWarningLimit: 1600,
         assetsInlineLimit: 1024 * 1024,
         minify: false,///"terser",
-        emptyOutDir: true,
         sourcemap: 'hidden',
         target: "esnext",
         rollupOptions,
@@ -206,18 +198,17 @@ export const initiate = (NAME = "generic", tsconfig = {}, __dirname = resolve(".
         name: NAME,
         lib: {
             formats: ["es"],
-            entry: resolve(__dirname, './src/index.ts'),
+            entry: resolve(__dirname, './src/index.ts')?.toString?.(),
             name: NAME,
             fileName: NAME,
         },
     }
 
     //
-    return {rollupOptions, plugins, resolve: $resolve, build, css, optimizeDeps, server};
+    return {resolve: $resolve, rollupOptions, plugins, build, css, optimizeDeps, server};
 }
 
 //
-const importConfig = (url, ...args)=>{ return import(url)?.then?.((m)=>m?.default?.(...args)); }
 const objectAssign = (target, ...sources) => {
     if (!sources.length) return target;
 
@@ -241,41 +232,140 @@ const objectAssign = (target, ...sources) => {
 }
 
 //
-export const NAME = "lure"; // TODO! rename to lure
+const NAME = "markdown-view";
 export const __dirname = resolve(import.meta.dirname, "./");
-export default objectAssign(
-    await initiate(
-        NAME,
-        await readFile(resolve(__dirname, "./tsconfig.json"), {encoding: "utf8"}),
-        __dirname
-    ),
-    {
-        server: {
-            //open: '/frontend/index.html',
-            origin: "",
-            host: "0.0.0.0",
-            port: 443,
-            https,
-            cors: {
-                allowedHeaders: "*",
-                preflightContinue: true,
-                credentials: true,
-                methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-                origin: "*"
-            },
-            headers: {
-                "Accept-Language": "*",
-                "Content-Security-Policy": "upgrade-insecure-requests",
-                "Content-Language": "*",
-                "Service-Worker-Allowed": "/",
-                "Permissions-Policy": "fullscreen=*, window-management=*",
-                "Cross-Origin-Embedder-Policy": "require-corp",
-                "Cross-Origin-Opener-Policy": "same-origin",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Request-Headers": "*"
+const loadTSConfig = async () => JSON.parse(await readFile(resolve(__dirname, "./tsconfig.json"), { encoding: "utf8" }));
+
+const flattenExtensionOutput = () => ({
+    name: "markdown-view:flatten-extension-output",
+    enforce: "post" as const,
+    generateBundle(_options, bundle) {
+        for (const key of Object.keys(bundle)) {
+            const output = bundle[key];
+            if (!output?.fileName?.startsWith?.("extension/")) continue;
+            const nextFileName = output.fileName.slice("extension/".length);
+            if (output.type === "asset" && typeof output.source === "string") {
+                output.source = output.source.replace(/\.\.\/assets\//g, "assets/");
             }
+            output.fileName = nextFileName || output.fileName;
+        }
+    },
+});
+
+const applyServerDefaults = (configuration) => objectAssign(configuration, {
+    base: "./",
+    server: {
+        origin: "",
+        host: "0.0.0.0",
+        port: 443,
+        https,
+        cors: {
+            allowedHeaders: "*",
+            preflightContinue: true,
+            credentials: true,
+            methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+            origin: "*"
         },
+        headers: {
+            "Accept-Language": "*",
+            "Content-Security-Policy": "upgrade-insecure-requests",
+            "Content-Language": "*",
+            "Service-Worker-Allowed": "/",
+            "Permissions-Policy": "fullscreen=*, window-management=*",
+            "Cross-Origin-Embedder-Policy": "require-corp",
+            "Cross-Origin-Opener-Policy": "same-origin",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Request-Headers": "*"
+        }
+    },
+});
+
+export default defineConfig(async ({ mode }) => {
+    const tsconfig = await loadTSConfig();
+    const isExtension = mode === "extension";
+    const config = initiate(isExtension ? `${NAME}-extension` : NAME, tsconfig, __dirname);
+    const plugins = [...(config.plugins ?? [])];
+
+    /*const copyTargets = [
+        { src: resolve(__dirname, "./fest"), dest: "fest" },
+    ];*/
+
+    //
+    const copyTargets = [];
+    if (isExtension) {
+        copyTargets.push({ src: resolve(__dirname, "./extension/manifest.json"), dest: "." });
+        copyTargets.push({ src: resolve(__dirname, "./extension/content.js"), dest: "." });
+        copyTargets.push({ src: resolve(__dirname, "./extension/upsertFix.js"), dest: "." });
+        plugins.push(flattenExtensionOutput());
     }
-);
+
+    //
+    if (copyTargets.length > 0) {
+        const cp = viteStaticCopy({ targets: copyTargets });
+        if (Array.isArray(cp)) {
+            plugins.push(...cp);
+        } else {
+            plugins.push(cp);
+        }
+    }
+
+    objectAssign(config, {
+        plugins,
+        publicDir: false,
+    });
+
+    if (config.build?.lib) {
+        delete config.build.lib;
+    }
+
+    if (isExtension) {
+        objectAssign(config, {
+            optimizeDeps: objectAssign(config.optimizeDeps ?? {}, {
+                entries: [
+                    resolve(__dirname, "./extension/background.ts"),
+                    resolve(__dirname, "./src/extension/index.ts"),
+                ],
+            }),
+            build: objectAssign(config.build ?? {}, {
+                outDir: resolve(__dirname, "./dist/extension"),
+                rollupOptions: objectAssign(config.build?.rollupOptions ?? {}, {
+                    input: {
+                        background: resolve(__dirname, "./extension/background.ts"),
+                        viewer: resolve(__dirname, "./extension/viewer.html"),
+                    },
+                    output: objectAssign(config.build?.rollupOptions?.output ?? {}, {
+                        dir: resolve(__dirname, "./dist/extension"),
+                        entryFileNames: (chunk) => (chunk.name === "background" ? "background.js" : "assets/[name]-[hash].js"),
+                        chunkFileNames: "assets/[name]-[hash].js",
+                        assetFileNames: "assets/[name]-[hash][extname]",
+                        inlineDynamicImports: false,
+                    }),
+                }),
+            }),
+        });
+
+        return applyServerDefaults(config);
+    }
+
+    objectAssign(config, {
+        optimizeDeps: objectAssign(config.optimizeDeps ?? {}, {
+            entries: [resolve(__dirname, "./src/index.ts")],
+        }),
+        build: objectAssign(config.build ?? {}, {
+            outDir: resolve(__dirname, "./dist/standalone"),
+            rollupOptions: objectAssign(config.build?.rollupOptions ?? {}, {
+                input: {
+                    standalone: resolve(__dirname, "./index.html"),
+                },
+                output: objectAssign(config.build?.rollupOptions?.output ?? {}, {
+                    dir: resolve(__dirname, "./dist/standalone"),
+                    inlineDynamicImports: false,
+                }),
+            }),
+        }),
+    });
+
+    return applyServerDefaults(config);
+});

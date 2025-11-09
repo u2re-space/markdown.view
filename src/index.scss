@@ -1,7 +1,7 @@
 @page {
     margin: 10mm 12mm 10mm 12mm;
-    font-size: 0.7em; size: A4;
-    font-family: "Source Sans 3", "Open Sans", "Ubuntu Sans", "Noto Sans", "Segoe UI", "Helvetica", "Calibri", "Carlito", "Twemoji Country Flags", "Comic Sans", Helvetica, serif, -apple-system, BlinkMacSystemFont, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 0.8em; size: A4;
+    font-family: "Noto Serif", "Noto Serif Display", "PT Serif", "IBM Plex Serif", "Literata", "Merriweather", "Source Serif 4", "Georgia", "Cambria", "Palatino Linotype", "Times New Roman", "Times", serif; //-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 
     //
     @bottom-center { content: counter(page); }
@@ -68,14 +68,14 @@
         }
 
         md-view {
-            font-size: 0.75em;
+            font-size: 1rem;
             a, span, p { font-size: 1em; };
         }
     }
 
     //
     @media screen {
-        :root { overflow: hidden; };
+        :root { overflow: hidden; font-size: 16px; };
 
         //
         body {
@@ -91,13 +91,14 @@
         //
         md-view {
             display: block;
-            inline-size: 100%;
-            block-size: 100%;
+            inline-size: stretch;
+            block-size: stretch;
             pointer-events: auto;
             min-block-size: 100dvb;
             max-block-size: 100dvb;
             background-color: transparent;
             scrollbar-color: light-dark( black, white) transparent;
+            font-size: 1rem;
         }
     }
 

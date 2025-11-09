@@ -3,12 +3,16 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "npm run build:standalone && npm run build:extension",
+        "build:standalone": "vite build --mode standalone",
+        "build:extension": "vite build --mode extension",
         "preview": "vite preview",
-        "start": "vite",
-        "dev": "vite dev",
+        "start": "vite dev --mode standalone",
+        "dev": "vite dev --mode standalone",
+        "dev:extension": "vite dev --mode extension",
+        "dev:standalone": "vite dev --mode standalone",
         "test": "echo 'No tests configured for markdown-view' && exit 0",
-        "test:dev": "vite dev"
+        "test:dev": "vite dev --config vite.config.ts"
     },
     "browserslist": [
         "last 1 chrome version",
@@ -29,15 +33,13 @@
         "marked": "^15.0.7",
         "marked-katex-extension": "^5.1.5",
         "postcss-preset-env": "^10.2.1",
-        "sass": "^1.86.0",
+        "sass": "^1.93.3",
         "terser": "^5.41.0",
         "typedoc": "^0.28.5",
-        "typescript": "~5.7.2",
+        "typescript": "^5.9.3",
         "vite": ">=7.1.5",
         "vite-bundle-analyzer": "^0.10.3",
         "vite-plugin-bundle-prefetch": "^0.0.4",
-        "vite-plugin-external": "^6.2.2",
-        "vite-plugin-optimizer": "^1.4.3",
         "vite-plugin-singlefile": "^2.1.0",
         "vite-plugin-static-copy": "^3.1.1",
         "vite-tsconfig-paths": "^5.1.4"

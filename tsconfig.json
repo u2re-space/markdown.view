@@ -1,17 +1,28 @@
 {
-    "include": ["./main.mjs", "./src/**/*", "./test/**/*"],
+    "include": ["src/index.ts", "src/**/*", "extension/**/*", "test/**/*"],
     "exclude": ["./dist/**/*", "./externals/**/*"],
     "compilerOptions": {
+        "baseUrl": "./",
         "outDir": "./dist/",
         "paths": {
             "fest-src/*": ["../*"],
             "fest/cdnImport": ["./fest/cdnImport.mjs"],
             "fest/dom": ["./fest/dom/index.ts"],
             "fest/lure": ["./fest/lure/index.ts"],
+            "fest/core": ["./fest/core/index.ts"],
+            "fest/icon": ["./fest/icon/index.ts"],
             "fest/object": ["./fest/object/index.ts"],
             "fest/uniform": ["./fest/uniform/index.ts"],
             "fest/theme": ["./fest/theme/index.ts"],
+            "fest/fl-ui": ["./fest/fl-ui/index.ts"],
+            "fest/veela": ["./fest/veela/index.ts"],
+            "fest/polyfill/*": ["./fest/polyfill/*"],
+            "veela-runtime": ["./fest/veela/scss/runtime/index.ts"],
+            "veela-lib": ["./fest/veela/scss/lib/_index.scss"],
+            "@fl-design/*": ["./fest/fl-ui/design/*"],
+            "@fl-ui/*": ["./fest/fl-ui/ui/*"]
         },
+        "typeRoots": ["plugins/global.d.ts"],
         "target": "ESNext",
         "module": "ESNext",
         "moduleResolution": "bundler",
@@ -31,7 +42,6 @@
         "inlineSources": true,
         "inlineSourceMap": true,
         "sourceMap": false,
-        "typeRoots": ["plugins/global.d.ts"],
-        "experimentalDecorators": true,
-    },
+        "experimentalDecorators": true
+    }
 }

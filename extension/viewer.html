@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html color-mode="user">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Markdown View Extension</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>script, link, style {display: none !important;}</style>
+        <script src="./upsertFix.js" type="module"></script>
+        <script src="../src/extension/index.ts" async defer type="module"></script>
+        <script src="../src/index.scss" type="module"></script>
+    </head>
+    <body>
+        <md-view src="" style="padding-inline: max(calc(100cqi - min(100cqi, 100rem)), 0px) !important;"></md-view>
+        <script type="module" async defer>
+            import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
+            Promise.try?.(polyfillCountryFlagEmojis)?.catch?.(console.warn.bind(console));
+        </script>
+    </body>
+</html>

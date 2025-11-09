@@ -2,21 +2,9 @@
 <html color-mode="user">
     <head>
         <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Markdown View</title>
         <style>script, link, style {display: none !important;}</style>
-        <script type="importmap">
-        {
-            "imports": {
-                "fest/": "/fest/",
-                "fest/cdnImport": "/fest/cdnImport.mjs",
-                "fest/dom": "/fest/dom/index.ts",
-                "fest/object": "/fest/object/index.ts",
-                "fest/uniform": "/fest/uniform/index.ts",
-                "fest/lure": "/fest/lure/lure.ts",
-                "fest/theme": "/fest/theme/index.ts"
-            }
-        }
-        </script>
         <script>
             WeakMap.prototype.getOrInsert ??= function (key, defaultValue) {
                 if (!this.has(key)) { this.set(key, defaultValue); }
@@ -48,7 +36,7 @@
                 }
             }
         </script>
-        <script src="./main.mjs" type="module"></script>
+        <script src="./src/index.ts" type="module"></script>
     </head>
     <body>
         <md-view src="" style="padding-inline: max(calc(100cqi - min(100cqi, 100rem)), 0px) !important;"></md-view>
