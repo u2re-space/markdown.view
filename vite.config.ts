@@ -298,6 +298,7 @@ export default defineConfig(async ({ mode }) => {
         copyTargets.push({ src: resolve(__dirname, "./extension/manifest.json"), dest: "." });
         copyTargets.push({ src: resolve(__dirname, "./extension/content.js"), dest: "." });
         copyTargets.push({ src: resolve(__dirname, "./extension/upsertFix.js"), dest: "." });
+        copyTargets.push({ src: resolve(__dirname, "./extension/512x.png"), dest: "." });
         plugins.push(flattenExtensionOutput());
     }
 

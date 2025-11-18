@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Markdown View",
-    "description": "View Markdown files in the browser or from disk using Markdown View.",
+    "description": "View Markdown files in the browser or from disk using Markdown View. Icon attribution <https://www.flaticon.com/free-icons/markdown> Markdown icon created by Gregor Cresnar - Flaticon.",
     "version": "0.1.0",
     "action": {
         "default_title": "Open Markdown View"
@@ -9,6 +9,9 @@
     "background": {
         "service_worker": "background.js",
         "type": "module"
+    },
+    "icons": {
+        "512": "./512x.png"
     },
     "permissions": [
         "contextMenus",
