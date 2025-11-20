@@ -127,6 +127,9 @@ export const initiate = (NAME = "markdown-view", tsconfig = {}, __dirname = reso
             exports: "auto",
             minifyInternalExports: true,
             experimentalMinChunkSize: 500_500,
+            entryFileNames: "[name].js",
+            chunkFileNames: "module/[name].js",
+            assetFileNames: "assets/[name][extname]",
         }
     };
 
@@ -337,9 +340,9 @@ export default defineConfig(async ({ mode }) => {
                     },
                     output: objectAssign(config.build?.rollupOptions?.output ?? {}, {
                         dir: resolve(__dirname, "./dist/extension"),
-                        entryFileNames: (chunk) => (chunk.name === "background" ? "background.js" : "assets/[name]-[hash].js"),
-                        chunkFileNames: "assets/[name]-[hash].js",
-                        assetFileNames: "assets/[name]-[hash][extname]",
+                        entryFileNames: (chunk) => (chunk.name === "background" ? "background.js" : "assets/[name].js"),
+                        chunkFileNames: "module/[name].js",
+                        assetFileNames: "assets/[name][extname]",
                     }),
                 }),
             }),
