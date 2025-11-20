@@ -28,6 +28,15 @@ const toBlobUrl = (source: BlobPart, type = "text/markdown"): string => {
     return URL.createObjectURL(new Blob([source], { type }));
 };
 
+const isLikelyUrl = (text: string) => {
+    try {
+        const url = new URL(text);
+        return ["http:", "https:"].includes(url.protocol);
+    } catch {
+        return false;
+    }
+};
+
 export function setupViewer(options: ViewerOptions = {}): ViewerController {
     const {
         target = document.querySelector<HTMLElement>("md-view"),
@@ -83,6 +92,32 @@ export function setupViewer(options: ViewerOptions = {}): ViewerController {
 
     if (enableDrop) {
         const zone = target ?? document.body;
+
+        // File Input for click-to-open
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = ".md,.markdown,.txt,text/markdown,text/plain";
+        fileInput.style.display = "none";
+        document.body.appendChild(fileInput);
+
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files?.[0];
+            if (!file) return;
+            const url = setObjectUrl(file, file.type || "text/markdown");
+            onFileDrop?.(file, url);
+            fileInput.value = ""; // Reset
+        });
+
+        zone.addEventListener("click", (event) => {
+            // Only open if no content is currently displayed (heuristic: no src attribute or empty one)
+            // or if the user explicitly wants to replace (maybe add a check for that later, but requirement says "if none of markdown content")
+            // We check if the target has a src attribute.
+            const currentSrc = target?.getAttribute("src");
+            if (!currentSrc || currentSrc.trim() === "") {
+                fileInput.click();
+            }
+        });
+
         zone.addEventListener("dragover", (event) => event.preventDefault(), { passive: false });
         zone.addEventListener(
             "drop",
@@ -95,6 +130,34 @@ export function setupViewer(options: ViewerOptions = {}): ViewerController {
             },
             { passive: false },
         );
+
+        // Paste handling
+        document.addEventListener("paste", (event) => {
+            const items = event.clipboardData?.items;
+            if (!items) return;
+
+            // 1. Check for File
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].kind === "file") {
+                    const file = items[i].getAsFile();
+                    if (file) {
+                        const url = setObjectUrl(file, file.type || "text/markdown");
+                        onFileDrop?.(file, url);
+                        return; // Stop after first file
+                    }
+                }
+            }
+
+            // 2. Check for Text (URL or Content)
+            const text = event.clipboardData?.getData("text");
+            if (text) {
+                if (isLikelyUrl(text)) {
+                    applySource(text);
+                } else {
+                    setObjectUrl(text, "text/markdown");
+                }
+            }
+        });
     }
 
     return {
@@ -110,4 +173,3 @@ export function setupViewer(options: ViewerOptions = {}): ViewerController {
         },
     };
 }
-

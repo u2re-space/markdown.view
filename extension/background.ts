@@ -109,6 +109,9 @@ const toViewerUrl = (source?: string | null) => {
 };
 
 const openViewer = (source?: string | null, destinationTabId?: number) => {
+    if (source) {
+        chrome.storage.local.set({ lastOpened: source });
+    }
     const url = toViewerUrl(source ?? undefined);
     if (typeof destinationTabId === "number") {
         chrome.tabs.update(destinationTabId, { url });
@@ -143,8 +146,9 @@ chrome.contextMenus.onClicked?.addListener?.((info, tab) => {
     }
 });
 
-chrome.action.onClicked?.addListener?.((tab) => {
-    openViewer(undefined, tab?.id);
+chrome.action.onClicked?.addListener?.(async (tab) => {
+    const { lastOpened } = await chrome.storage.local.get("lastOpened");
+    openViewer(lastOpened || undefined, tab?.id);
 });
 
 chrome.webNavigation.onCommitted?.addListener?.((details) => {
